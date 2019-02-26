@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <link rel="stylesheet" type="text/css" href="theme.css">
+  </head>
+  <body>
+    <div id="mainContainer">
+      <div id = "usernameWrap">
+        <form action = '' id='usernameAreaForm' onsubmit = 'return usernameSubmit()'>
+          Enter Your Username :
+          <input id = 'username' autocomplete="off" size="30" /><br>
+          Channel Name :
+          <input id = 'channelname' autocomplete="off" size="30" /><button id='usernameButton'>Enter</button>
+        </form>
+      </div>
+        <div id = 'msgWrap'>
+        <ul id="messages"></ul>
+        <form action="" onsubmit = 'return msgFormSubmit()' id='msgAreaForm'>
+          <input id="messageText" autocomplete="off"  /><button id='msgSendButton'>Send</button>
+        </form>
+      </div>
+      <div id="onlineUsers"></div>
+      <div id="typing"></div>
+    </div >
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js">></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chat-engine@latest/dist/chat-engine.min.js"></script>
+    <!-- <script src="../node_modules/chat-engine-typing-indicator/dist/chat-engine-typing-indicator.js" type="text/javascript"></script> -->
+    <script>
+      var socket = io();
+      var pubnubDemo = new PubNub({
+          publishKey: 'pub-c-1411845c-e911-447a-a090-c278c3cb5081',
+          subscribeKey: 'sub-c-d8f52d1a-1acb-11e9-b43f-7a31102fe3bb',
+          autoNetworkDetection: true
+      });
+      pubnubDemo.addListener({
+          message: function(message) {
+              if (message != '') {
+                if (message.channel == 'os') {
+                  if (message.userMetadata.userMsg == true) {
+                    var li = document.createElement('li');
+                    var textNode = document.createTextNode(message.userMetadata.user+' : '+message.message);
+                    li.appendChild(textNode);
+                    //node.innerHTML = msg;    //innerHTML also can be used but TextNode is more faster
+                    document.getElementById('messages').appendChild(li);
+                  }
+                  if (message.userMetadata.userMsg == false) {
+                    if (message.userMetadata.isTyping == true) {
+                      if (username != message.userMetadata.username) {
+                        var data = '<b>'+message.userMetadata.username+'</b>' + ' is typing....';
+                        document.getElementById('typing').innerHTML = data;
+                      } else {
+                        document.getElementById('typing').innerHTML = '';
+                      }
+                    } else {
+                      document.getElementById('typing').innerHTML = '';
+                    }
+                  }
+                }
+              }
+          },
+          status: function(statusEvent) {
+              if (statusEvent.category === "PNGetStateOperation") {
+                  console.log('got state msg');
+              }
+              if (statusEvent.category === "PNSetStateOperation") {
+                console.log('got state set msg');
+              }
+          },
+          presence: function (p) {
+            if (p.channel == 'os') {
+              users = p.occupancy;
+              // document.getElementById('onlineUsers').innerHTML = 'Online Users : ' + users;
+            }
+          }
+      });
+      pubnubDemo.hereNow(
+          {
+              channels: ["os"],
+              includeUUIDs: true,
+              includeState: true
+          },
+          function (status, response) {
+              // handle status, response
+              if (response.totalOccupancy) {
+                users = response.totalOccupancy;
+                // document.getElementById('onlineUsers').innerHTML = 'Online Users : ' + users;
+              }
+          }
+      );
+      pubnubDemo.subscribe({
+          channels: ['os'],
+          withPresence: true // hardcoded for now!
+      });
+      var keyupTimer;
+      var keydownTimer;
+      var username;
+      var channelName;
+      function usernameSubmit(){
+        username = document.getElementById('username').value;
+        channelName = document.getElementById('channelname').value;
+        if(username != '' && channelName != '')
+        {
+          document.getElementById('usernameWrap').style.display = 'none';
+          document.getElementById('msgWrap').style.display = 'block';
+        }
+        else {
+          alert('Enter a valid username and a channel name to join');
+        }
+        return false;
+      }
+      function msgFormSubmit(){
+        var element = document.getElementById('messageText');
+        pubnubDemo.publish({
+            message: element.value,
+            channel: channelName,
+            meta: {
+              user: username,
+              userMsg: true
+            }
+        }, function (status, response) {
+          // nothing to do for now
+        });
+        element.value = '';
+        return false;
+      };
+      document.getElementById('messageText').onkeydown =  function msgTextKeydown(e){
+        if(e.keyCode != 13){
+          clearTimeout(keydownTimer);
+          keydownTimer = setTimeout(function(){
+            pubnubDemo.publish({
+              message: 'user type event started',
+              channel: channelName,
+              meta: {
+                isTyping: true,
+                username: username,
+                userMsg: false
+              }
+            }, function (status, response) {
+              // todo nothing to do for now
+            });
+          }, 200);
+          clearTimeout(keyupTimer);
+          keyupTimer = setTimeout(function(){
+            pubnubDemo.publish({
+              message: 'user type event stopped',
+              channel: channelName,
+              meta: {
+                isTyping: false,
+                userMsg: false
+              }
+            }, function (status, response) {
+              // todo nothing to do for now
+            });
+          }, 1000);
+        }
+      };
+      socket.on('chat connections',function(users){
+        document.getElementById('onlineUsers').innerHTML = 'Online Users : ' + users;
+      });
+    </script>
+  </body>
+</html>
