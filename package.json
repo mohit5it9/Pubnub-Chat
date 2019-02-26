@@ -1,0 +1,12 @@
+{
+  "name": "Pubnub Chat app",
+  "version": "0.0.1",
+  "description": "my first pubnub chat app",
+  "dependencies": {
+    "chat-engine": "^0.9.21",
+    "chat-engine-event-status": "0.0.4",
+    "chat-engine-typing-indicator": "0.0.9",
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  }
+}
