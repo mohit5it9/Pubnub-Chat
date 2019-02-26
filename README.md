@@ -2,7 +2,6 @@
 <b>Things done so far:<b>
 
 <ul>
-	<li>  </li>
 	<li> Users can join a particular channel using a username </li>
 	<li> Users can send messages to each other </li>
 	<li> Implemented the 'is typing' feature </li>
