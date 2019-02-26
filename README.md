@@ -21,7 +21,7 @@ Things done so far:
 
 Future Works:
 
-	<li> Pubnub sdk has a option of storing the history of the past messages of a particular chat. It's very easy; just a few lines of code configuarion can do it. But for this demo purpose I haven't implemented this feature. </li>
-	<li> Private Messaging between users </li>
-	<li> File upload </li>
+	Pubnub sdk has a option of storing the history of the past messages of a particular chat. It's very easy; just a few lines of code configuarion can do it. But for this demo purpose I haven't implemented this feature. 
+	Private Messaging between users 
+	File upload 
 
