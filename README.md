@@ -8,7 +8,7 @@ run `node index.js` to start the node app. It runs on port 3000.<br>
 go to your browser and go to localhost:3000 to run your app.<br>
 Enter a cool username and enter the appropriate channel you want. For demo purposes the channel is 'os'.<br>
 
-
+Working URL: https://pubnub-chat-demo-mohit.herokuapp.com/
 Things done so far:
 
 
