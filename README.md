@@ -12,11 +12,11 @@ Enter a cool username and enter the appropriate channel you want. For demo purpo
 Things done so far:
 
 
-	<li> Users can join a particular channel using a username </li>
-	<li> Users can send messages to each other </li>
-	<li> Implemented the 'is typing' feature </li>
-	<li> also displays the number of live users in a particular channel </li>
-	<li> <i>for now while entering the channel name, please put 'os' (without quotes) as the channel name, as I have hardcoded this in the code.</i> </li>
+	 Users can join a particular channel using a username 
+	Users can send messages to each other 
+	Implemented the 'is typing' feature
+	also displays the number of live users in a particular channel 
+	<b><i>for now while entering the channel name, please put 'os' (without quotes) as the channel name, as I have hardcoded this in the code.</i> </b>
 
 
 Future Works:
