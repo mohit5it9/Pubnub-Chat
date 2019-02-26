@@ -16,7 +16,7 @@ Things done so far:
 	Users can send messages to each other 
 	Implemented the 'is typing' feature
 	also displays the number of live users in a particular channel 
-	<b><i>for now while entering the channel name, please put 'os' (without quotes) as the channel name, as I have hardcoded this in the code.</i> </b>
+<b>for now while entering the channel name, please put 'os' (without quotes) as the channel name, as I have hardcoded this in the code.<b>
 
 
 Future Works:
