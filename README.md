@@ -18,9 +18,9 @@ Future Works:
 
 Installation:
 
-Used node server to host the app.
-run `npm install` to install all the in app dependencies
-run `node index.js` to start the node app. It runs on port 3000.
-go to your browser and go to localhost:3000 to run your app.
-Enter a cool username and enter the appropriate channel you want. For demo purposes the channel is 'os'.
+Used node server to host the app.\n
+run `npm install` to install all the in app dependencies.\n
+run `node index.js` to start the node app. It runs on port 3000.\n
+go to your browser and go to localhost:3000 to run your app.\n
+Enter a cool username and enter the appropriate channel you want. For demo purposes the channel is 'os'.\n
 
